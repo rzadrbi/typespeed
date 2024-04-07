@@ -1,8 +1,12 @@
 const TimeQuery=document.querySelector(".timer");
 const TypeArea=document.querySelector("#test-area");
+const origintext=document.querySelector('#origin-text p').innerHTML;
+const testWrapper=document.querySelector('.test-wrapper');
+const resetButton=document.querySelector('#reset');
 
 var time = [0,0,0,0];
 var runTime=false
+var interval;
 
 function addzero(time_){
 
@@ -25,14 +29,42 @@ function Timer()
 }
 
 
+function spellcheck(){
+    let textEntered=TypeArea.value;
+    let originTextMatch=origintext.substring(0,textEntered.length);
+
+    if(textEntered==origintext){
+        testWrapper.style.borderColor='green';
+        clearInterval(interval);
+    }else{
+        if(textEntered==originTextMatch){
+            testWrapper.style.borderColor='yellow';
+        }else{
+            testWrapper.style.borderColor='red';
+        }
+    }
+}
+
+function reset(){
+    clearInterval(interval);
+    interval=null;
+    time=[0,0,0,0];
+    runTime=false;
+    TypeArea.value="";
+    TimeQuery.innerHTML="00:00:00";
+    testWrapper.style.borderColor="grey";
+
+}
 
 
 function start(){
     if(!runTime){
         runTime=true
-        setInterval(Timer, 10)
+        interval = setInterval(Timer, 10)
     }
 }
 
 
-TypeArea.addEventListener('keypress', start)
+TypeArea.addEventListener('keypress', start);
+TypeArea.addEventListener('keyup', spellcheck);
+resetButton.addEventListener('click', reset)
