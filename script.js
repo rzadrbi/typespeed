@@ -1,25 +1,38 @@
-const theTimer=document.querySelector(".timer");
+const TimeQuery=document.querySelector(".timer");
+const TypeArea=document.querySelector("#test-area");
 
+var time = [0,0,0,0];
+var runTime=false
 
-var timer=[0,0,0,0];
+function addzero(time_){
 
+    if(time_<=9){
+        time_='0'+time_;
+        
+    }
+    return time_;
+}
 
-
-
-function runTimer(){
-let currentTime= timer[0]+":"+timer[1]+":"+timer[2];
-
-theTimer.innerHTML=currentTime;
-
-timer[3]++;
-
-timer[0]=Math.floor((timer[3]/100)/60);
-timer[1]=Math.floor(timer[3]/100)-(timer[0]*60);
-timer[2]=Math.floor(timer[3] - (timer[1]*100) - (timer[0]*6000));
-
-
+function Timer()
+{
+    let currentTime = addzero(time[0])+':'+addzero(time[1])+':'+addzero(time[2]);
+    TimeQuery.innerHTML = currentTime
+    time[3]++;
+    time[0]=Math.floor((time[3]/100)/60);
+    time[1]=Math.floor(time[3]/100)-[time[0]*60];
+    time[2]=Math.floor(time[3] - (time[1]*100) - (time[0]*6000));
 
 }
 
 
-setInterval(runTimer,10);
+
+
+function start(){
+    if(!runTime){
+        runTime=true
+        setInterval(Timer, 10)
+    }
+}
+
+
+TypeArea.addEventListener('keypress', start)
